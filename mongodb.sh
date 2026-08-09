@@ -5,28 +5,29 @@ G="\e[32m"
 Y="\e[33m"
 N="\e[0m"
 
-LOGFOLDER="/var/log/Install"
+LOGFOLDER="/var/log/shell-roboshop"
 SCRIPTNAME=$( echo $0| cut -d "." -f1 )
-LOGFILE="$LOGFOLDER/$SCRIPTNAME.log" # /var/log/Install/16-logs.log
+LOG_FILE="$LOGFOLDER/$SCRIPTNAME.log" # /var/log/shell-roboshop/16-logs.log
 
 mkdir -p $LOGFOLDER
-echo "Script started executed at: $(date)" | tee -a $LOGFILE
+echo "Script started executed at: $(date)" | tee -a $LOG_FILE
 
 
 
 if [ $USERID -ne 0 ]; then
-    echo "ERROR:: Please run this script with root privelege" | tee -a $LOGFILE
+    echo "ERROR:: Please run this script with root privelege" | tee -a $LOG_FILE
     exit 1 # failure is other than 0
 fi
 
 VALIDATE(){ # functions receive inputs through args just like shell script args
     if [ $1 -ne 0 ]; then
-        echo -e "$2 ... $R FAILURE $N"  | tee -a $LOGFILE
+        echo -e "$2 ... $R FAILURE $N"  | tee -a $LOG_FILE
         exit 1
     else
-        echo -e "$2 ... $G SUCCESS $N" | tee -a $LOGFILE
+        echo -e "$2 ... $G SUCCESS $N" | tee -a $LOG_FILE
     fi
 }
+
 cp mongo.repo /etc/yum.repos.d/mongo.repo
 VALIDATE $? "Adding Mongo repo"
 
