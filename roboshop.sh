@@ -1,7 +1,7 @@
 #!/bin/bash
 
 AMI_ID="ami-0220d79f3f480ecf5"
-SG_ID="sg-07cca3c90e17cfce8" # replace with your SG ID
+SG_ID="sg-09a42be144df0f2ca" # replace with your SG ID
 ZONE_ID="Z100354714Q7Y7MA4LCQB" # replace with your ID
 DOMAIN_NAME="anjana.fun"
 
