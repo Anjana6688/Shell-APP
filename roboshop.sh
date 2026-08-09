@@ -19,14 +19,15 @@ do
     fi
 
     echo "$instance: $IP"
-
+# AWS cli code to update the DNS record in Route53
+# upsert means if record is not there, create it. If it is there, update it.
     aws route53 change-resource-record-sets \
     --hosted-zone-id $ZONE_ID \
     --change-batch '
     {
         "Comment": "Updating record set"
         ,"Changes": [{
-        "Action"              : "UPSERT"
+        "Action"              : "UPSERT" 
         ,"ResourceRecordSet"  : {
             "Name"              : "'$RECORD_NAME'"
             ,"Type"             : "A"
