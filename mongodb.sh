@@ -40,3 +40,9 @@ VALIDATE $? "Enable MongoDB"
 systemctl start mongod 
 VALIDATE $? "Start MongoDB"
 
+#Update listen address from 127.0.0.1 to 0.0.0.0 in /etc/mongod.conf
+ sed -i 's/127.0.0.1/0.0.0.0/g' /etc/mongod.conf
+VALIDATE $? "Updating MongoDB listen address"
+
+systemctl restart mongod
+VALIDATE $? "Restarted MongoDB"
