@@ -37,7 +37,6 @@ VALIDATE $? "Enabling NodeJS 20"
 dnf install nodejs -y &>>$LOG_FILE
 VALIDATE $? "Installing NodeJS"
 
-#applications should run as nonroot user ,refer https://github.com/daws-86s/roboshop-documentation/blob/main/02-catalogue.MD
 id roboshop &>>$LOG_FILE
 if [ $? -ne 0 ]; then
     useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop &>>$LOG_FILE
@@ -55,7 +54,6 @@ VALIDATE $? "Downloading catalogue application"
 cd /app 
 VALIDATE $? "Changing to app directory"
 
-# before unzipping remove existing code, otherwise it will create duplicate files and system will confuse to unzip the files and ask us the yes/no there it will fail so delete it
 rm -rf /app/*
 VALIDATE $? "Removing existing code"
 
@@ -78,15 +76,13 @@ VALIDATE $? "Copy mongo repo"
 dnf install mongodb-mongosh -y &>>$LOG_FILE
 VALIDATE $? "Install MongoDB client"
 
-# To avoid duplicated
-INDEX=$(mongosh mongodb.anjana.fun --quiet --eval "db.getMongo().getDBNames().indexOf('catalogue')")
+INDEX=$(mongosh mongodb.daws86s.fun --quiet --eval "db.getMongo().getDBNames().indexOf('catalogue')")
 if [ $INDEX -le 0 ]; then
     mongosh --host $MONGODB_HOST </app/db/master-data.js &>>$LOG_FILE
     VALIDATE $? "Load catalogue products"
 else
     echo -e "Catalogue products already loaded ... $Y SKIPPING $N"
 fi
-
 
 systemctl restart catalogue
 VALIDATE $? "Restarted catalogue"
