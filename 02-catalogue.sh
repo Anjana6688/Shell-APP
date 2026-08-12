@@ -78,11 +78,15 @@ VALIDATE $? "Install MongoDB client"
 
 
 
-mongosh --host mongodb.anjana.fun </app/db/master-data.js
-    VALIDATE $? "Loading catalogue products"
+INDEX=$(mongosh mongodb.anjana.fun --quiet --eval "db.getMongo().getDBNames().indexOf('catalogue')" 2>/dev/null)
+
+if [ -n "$INDEX" ] && [ "$INDEX" -le 0 ]; then
+    mongosh --host $MONGODB_HOST </app/db/master-data.js &>>$LOG_FILE
+    VALIDATE $? "Load catalogue products"
 else
     echo -e "Catalogue products already loaded ... $Y SKIPPING $N"
 fi
+
 
 systemctl restart catalogue
 VALIDATE $? "Restarted catalogue"
