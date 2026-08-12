@@ -1,5 +1,5 @@
 #!/bin/bash
-
+# This script will create EC2 instances for the given list of services and update the DNS records in Route53.
 AMI_ID="ami-0220d79f3f480ecf5"
 SG_ID="sg-09a42be144df0f2ca" # replace with your SG ID
 ZONE_ID="Z100354714Q7Y7MA4LCQB" # replace with your ID
